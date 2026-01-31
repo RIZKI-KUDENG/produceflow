@@ -8,5 +8,5 @@ public interface IAssetRepository
     Task<Asset?> GetByIdAsync(int id);
     Task<Asset> AddAsync(Asset asset);
     Task UpdateAsync(Asset asset);
-    Task DeleteAsync(Asset asset);
+    Task DeleteAsync(int id);
 }
