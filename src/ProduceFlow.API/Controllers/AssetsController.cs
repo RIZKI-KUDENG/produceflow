@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using ProduceFlow.Application.DTOs.Assets;
-using ProduceFlow.Application.Services;
-using ProduceFlow.Domain.Entities;
 using ProduceFlow.Application.UseCases.Assets.Commands.CreateAsset;
 using ProduceFlow.Application.UseCases.Assets.Commands.DeleteAsset;
 using ProduceFlow.Application.UseCases.Assets.Commands.UpdateAsset;
