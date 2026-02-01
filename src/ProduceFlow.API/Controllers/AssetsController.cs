@@ -26,15 +26,9 @@ public class AssetsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateAssetRequest request)
     {
-        try
-        {
             var result = await _service.CreateAssetAsync(request);
             return CreatedAtAction(nameof(GetAll), new { }, result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        
     }
 
     [HttpGet("{id:int}")]
