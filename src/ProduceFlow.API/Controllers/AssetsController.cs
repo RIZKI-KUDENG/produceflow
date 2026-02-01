@@ -36,4 +36,11 @@ public class AssetsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var result = await _service.GetAssetByIdAsync(id);
+        return Ok(result);
+    }
 }
