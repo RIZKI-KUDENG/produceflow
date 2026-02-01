@@ -60,25 +60,29 @@ public class AssetService
         await _repository.DeleteAsync(id);
     }
 
-    public async Task UpdateAssetAsync(Asset asset, UpdateAssetRequest request)
+ public async Task UpdateAssetAsync(int id, UpdateAssetRequest request)
+{
+
+    await _updateValidator.ValidateAndThrowAsync(request);
+
+
+    var existingAsset = await _repository.GetByIdAsync(id);
+
+    if (existingAsset is null)
     {
-        await _updateValidator.ValidateAndThrowAsync(request);
 
-        var existingAsset = await _repository.GetByIdAsync(asset.Id);
-
-        if (existingAsset is null)
-        {
-            throw new Exception("Asset not found");
-        }
-
-        existingAsset.Name = asset.Name;
-        existingAsset.Description = asset.Description;
-        existingAsset.Price = asset.Price;
-        existingAsset.Quantity = asset.Quantity;
-        existingAsset.Status = asset.Status;
-        existingAsset.UpdatedAt = DateTime.UtcNow;
-
-        await _repository.UpdateAsync(existingAsset);
+        throw new KeyNotFoundException($"Asset dengan ID {id} tidak ditemukan");
     }
+
+
+    existingAsset.Name = request.Name;
+    existingAsset.Description = request.Description;
+    existingAsset.Price = request.Price;
+    existingAsset.Quantity = request.Quantity;
+    existingAsset.Status = request.Status;
+    existingAsset.UpdatedAt = DateTime.UtcNow;
+
+    await _repository.UpdateAsync(existingAsset);
+}
 
 }

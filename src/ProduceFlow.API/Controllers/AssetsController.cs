@@ -29,9 +29,9 @@ public class AssetsController : ControllerBase
         try
         {
             var result = await _service.CreateAssetAsync(request);
-            return CreatedAtAction(nameof(GetAll), new {}, result);
+            return CreatedAtAction(nameof(GetAll), new { }, result);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
@@ -42,5 +42,42 @@ public class AssetsController : ControllerBase
     {
         var result = await _service.GetAssetByIdAsync(id);
         return Ok(result);
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
+        {
+            await _service.DeleteAssetAsync(id);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateAssetRequest request)
+    {
+        try
+        {
+            await _service.UpdateAssetAsync(id, request);
+            return NoContent();
+        }
+        catch (KeyNotFoundException)
+        {
+
+            return NotFound();
+        }
+        catch (FluentValidation.ValidationException ex)
+        {
+            return BadRequest(ex.Errors);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
