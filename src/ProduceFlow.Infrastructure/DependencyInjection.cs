@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ProduceFlow.Application.Interfaces;
 using ProduceFlow.Infrastructure.Data;
 using ProduceFlow.Infrastructure.Repositories;
+using ProduceFlow.Infrastructure.Services;
 
 namespace ProduceFlow.Infrastructure;
 
@@ -18,6 +19,9 @@ public static class DependencyInjection
         );
 
         services.AddScoped<IAssetRepository, AssetRepository>();
+
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }
