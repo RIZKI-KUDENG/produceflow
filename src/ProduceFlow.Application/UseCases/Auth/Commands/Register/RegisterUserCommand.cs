@@ -39,6 +39,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, U
             IsActive = true 
         };
 
-        return await _repository.AddAsync(user);
+         await _repository.AddAsync(user);
+
+        return user;
     }
 }
