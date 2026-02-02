@@ -7,5 +7,7 @@ namespace ProduceFlow.Application.Interfaces
         Task<bool> IsEmailUniqueAsync(string email);
         Task AddAsync(User user);
         Task<User?> GetByEmailAsync(string email);
+
+        Task UpdateAsync(User user);
     }
 }
