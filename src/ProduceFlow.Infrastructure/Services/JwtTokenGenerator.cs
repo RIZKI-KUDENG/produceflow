@@ -10,11 +10,11 @@ using ProduceFlow.Domain.Entities;
 
 namespace ProduceFlow.Infrastructure.Services;
 
-public class jwtTokenGenerator : IJwtTokenGenerator
+public class JwtTokenGenerator : IJwtTokenGenerator
 {
     private readonly JwtSettings _jwtSettings;
     
-    public jwtTokenGenerator(IOptions<JwtSettings> jwtSettings)
+    public JwtTokenGenerator(IOptions<JwtSettings> jwtSettings)
     {
         _jwtSettings = jwtSettings.Value;
     }
