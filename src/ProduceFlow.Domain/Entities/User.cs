@@ -1,4 +1,6 @@
 using ProduceFlow.Domain.Common;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace ProduceFlow.Domain.Entities;
 
@@ -9,6 +11,9 @@ public class User : BaseEntity
     public string PasswordHash {get; set;} = string.Empty;
 
     public int DepartementId {get; set;}
+
+    [ForeignKey("DepartementId")]
+    public Departement? Departement {get; set;}
 
     public bool IsActive {get; set;} = true;
 

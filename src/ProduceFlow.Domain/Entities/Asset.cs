@@ -15,7 +15,7 @@ namespace ProduceFlow.Domain.Entities;
         public virtual Location Location {get; set;} = null!;
         public int? CurrentHolderId {get; set;}
         [ForeignKey("CurrentHolderId")]
-        public virtual User CurrentHolder {get; set;} = null!;
+        public virtual User? CurrentHolder {get; set;}
         public string Status {get; set;} = "Available";
         public string SerialNumber {get; set;} = string.Empty;
 
