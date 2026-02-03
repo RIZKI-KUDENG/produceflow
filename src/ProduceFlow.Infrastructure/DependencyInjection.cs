@@ -18,16 +18,17 @@ public static class DependencyInjection
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        services.AddDbContext<AppDbContext>(options => 
+        services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(connectionString)
         );
 
         services.AddScoped<IAssetRepository, AssetRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-services.Configure<JwtSettings>(
+        services.Configure<JwtSettings>(
     configuration.GetSection(JwtSettings.SectionName)
 );
 
