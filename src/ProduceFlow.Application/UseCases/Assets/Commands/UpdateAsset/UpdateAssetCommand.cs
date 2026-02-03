@@ -29,7 +29,7 @@ public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Ass
             PurchaseDate = request.PurchaseDate,
             PurchasePrice = request.PurchasePrice,
             LocationId = request.LocationId,
-            CurrentHolder = request.CurrentHolder,
+            CurrentHolderId = request.CurrentHolder,
             Status = request.Status,
             SerialNumber = request.SerialNumber
        };
@@ -48,7 +48,7 @@ public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Ass
        existingAsset.PurchaseDate = request.PurchaseDate;
        existingAsset.PurchasePrice = request.PurchasePrice;
        existingAsset.LocationId = request.LocationId;
-       existingAsset.CurrentHolder = request.CurrentHolder;
+       existingAsset.CurrentHolderId = request.CurrentHolder;
        existingAsset.Status = request.Status;
        existingAsset.SerialNumber = request.SerialNumber;
        existingAsset.UpdatedAt = DateTime.UtcNow;

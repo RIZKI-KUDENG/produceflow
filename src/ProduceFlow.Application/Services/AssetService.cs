@@ -43,7 +43,7 @@ public class AssetService
             PurchaseDate = request.PurchaseDate,
             PurchasePrice = request.PurchasePrice,
             LocationId = request.LocationId,
-            CurrentHolder = request.CurrentHolder,
+            CurrentHolderId = request.CurrentHolderId,
             Status = request.Status,
             SerialNumber = request.SerialNumber
             
@@ -84,7 +84,7 @@ public class AssetService
     existingAsset.PurchaseDate = request.PurchaseDate;
     existingAsset.PurchasePrice = request.PurchasePrice;
     existingAsset.LocationId = request.LocationId;
-    existingAsset.CurrentHolder = request.CurrentHolder;
+    existingAsset.CurrentHolderId = request.CurrentHolderId;
     existingAsset.Status = request.Status;
     existingAsset.SerialNumber = request.SerialNumber;
 

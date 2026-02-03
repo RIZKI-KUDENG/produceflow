@@ -6,7 +6,7 @@ using ProduceFlow.Application.DTOs.Assets;
 
 namespace ProduceFlow.Application.UseCases.Assets.Commands.CreateAsset;
 
-public record CreateAssetCommand(string Name, int CategoryId, DateTime PurchaseDate, decimal PurchasePrice, int LocationId, int CurrentHolder, string Status, string SerialNumber) : IRequest<Asset>;
+public record CreateAssetCommand(string Name, int CategoryId, DateTime PurchaseDate, decimal PurchasePrice, int LocationId, int? CurrentHolderId, string Status, string SerialNumber) : IRequest<Asset>;
 
 public class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, Asset>
 {
@@ -28,7 +28,7 @@ public class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, Ass
             PurchaseDate = request.PurchaseDate,
             PurchasePrice = request.PurchasePrice,
             LocationId = request.LocationId,
-            CurrentHolder = request.CurrentHolder,
+            CurrentHolderId = request.CurrentHolderId,
             Status = request.Status,
             SerialNumber = request.SerialNumber
         };
@@ -41,7 +41,7 @@ public class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, Ass
             PurchaseDate = request.PurchaseDate,
             PurchasePrice = request.PurchasePrice,
             LocationId = request.LocationId,
-            CurrentHolder = request.CurrentHolder,
+            CurrentHolderId = request.CurrentHolderId,
             Status = request.Status,
             SerialNumber = request.SerialNumber
         };

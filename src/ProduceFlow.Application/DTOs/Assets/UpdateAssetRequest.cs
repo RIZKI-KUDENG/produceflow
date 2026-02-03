@@ -9,7 +9,7 @@ public class UpdateAssetRequest
         public decimal PurchasePrice {get; set;}
         public DateTime PurchaseDate {get; set;} 
         public int LocationId {get; set;}
-        public int CurrentHolder {get; set;}
+        public int CurrentHolderId {get; set;}
         public string Status {get; set;} = string.Empty;
         public string SerialNumber {get; set;} = string.Empty;
 }

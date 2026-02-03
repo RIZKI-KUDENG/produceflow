@@ -9,7 +9,7 @@ public class CreateAssetRequest
         public decimal PurchasePrice {get; set;}
         public DateTime PurchaseDate {get; set;} 
         public int LocationId {get; set;}
-        public int CurrentHolder {get; set;}
-        public string Status {get; set;} = string.Empty;
+        public int? CurrentHolderId {get; set;}
+        public string Status {get; set;} = "Available";
         public string SerialNumber {get; set;} = string.Empty;
 }

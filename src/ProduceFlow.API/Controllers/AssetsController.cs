@@ -36,7 +36,7 @@ public class AssetsController : ControllerBase
             request.PurchaseDate,
              request.PurchasePrice,
             request.LocationId,
-            request.CurrentHolder,
+            request.CurrentHolderId,
            request.Status,
             request.SerialNumber
         );
@@ -68,7 +68,7 @@ public class AssetsController : ControllerBase
             request.PurchaseDate,
             request.PurchasePrice,
             request.LocationId,
-            request.CurrentHolder,
+            request.CurrentHolderId,
             request.Status,
             request.SerialNumber
         ));
