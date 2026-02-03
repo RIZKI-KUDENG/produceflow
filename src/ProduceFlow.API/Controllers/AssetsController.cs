@@ -31,11 +31,14 @@ public class AssetsController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateAssetRequest request)
     {
         var command = new CreateAssetCommand(
-            request.Name,
-            request.Description,
-            request.Price,
-            request.Quantity,
-            request.Status
+             request.Name,
+            request.CategoryId,
+            request.PurchaseDate,
+             request.PurchasePrice,
+            request.LocationId,
+            request.CurrentHolder,
+           request.Status,
+            request.SerialNumber
         );
         var result = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
@@ -58,7 +61,17 @@ public class AssetsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateAssetRequest request)
     {
-        await _mediator.Send(new UpdateAssetCommand(id, request.Name, request.Description, request.Price, request.Quantity, request.Status));
+        await _mediator.Send(new UpdateAssetCommand(
+            id,
+            request.Name,
+            request.CategoryId,
+            request.PurchaseDate,
+            request.PurchasePrice,
+            request.LocationId,
+            request.CurrentHolder,
+            request.Status,
+            request.SerialNumber
+        ));
         return NoContent();
     }
 }

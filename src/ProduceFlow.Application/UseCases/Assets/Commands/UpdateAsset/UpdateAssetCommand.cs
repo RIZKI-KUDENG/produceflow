@@ -7,7 +7,7 @@ using ProduceFlow.Application.DTOs.Assets;
 
 namespace ProduceFlow.Application.UseCases.Assets.Commands.UpdateAsset;
 
-public record UpdateAssetCommand(int Id, string Name, string? Description, decimal Price, int Quantity, AssetStatus Status) : IRequest<Asset>;
+public record UpdateAssetCommand( int Id, string Name, int CategoryId, DateTime PurchaseDate, decimal PurchasePrice, int LocationId, int CurrentHolder, string Status, string SerialNumber) : IRequest<Asset>;
 
 public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Asset>
 {
@@ -24,11 +24,14 @@ public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Ass
     {
        var dto = new UpdateAssetRequest
        {
-           Name = request.Name,
-           Description = request.Description,
-           Price = request.Price,
-           Quantity = request.Quantity,
-           Status = request.Status
+            Name = request.Name,
+            CategoryId = request.CategoryId,
+            PurchaseDate = request.PurchaseDate,
+            PurchasePrice = request.PurchasePrice,
+            LocationId = request.LocationId,
+            CurrentHolder = request.CurrentHolder,
+            Status = request.Status,
+            SerialNumber = request.SerialNumber
        };
 
        await _validator.ValidateAndThrowAsync(dto, cancellationToken);
@@ -41,10 +44,13 @@ public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Ass
        }
 
        existingAsset.Name = request.Name;
-       existingAsset.Description = request.Description;
-       existingAsset.Price = request.Price;
-       existingAsset.Quantity = request.Quantity;
+       existingAsset.CategoryId = request.CategoryId;
+       existingAsset.PurchaseDate = request.PurchaseDate;
+       existingAsset.PurchasePrice = request.PurchasePrice;
+       existingAsset.LocationId = request.LocationId;
+       existingAsset.CurrentHolder = request.CurrentHolder;
        existingAsset.Status = request.Status;
+       existingAsset.SerialNumber = request.SerialNumber;
        existingAsset.UpdatedAt = DateTime.UtcNow;
 
        await _repository.UpdateAsync(existingAsset);

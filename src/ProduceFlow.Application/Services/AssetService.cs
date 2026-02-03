@@ -39,10 +39,14 @@ public class AssetService
         var newAsset = new Asset
         {
             Name = request.Name,
-            Description = request.Description,
-            Price = request.Price,
-            Quantity = request.Quantity,
-            Status = request.Status
+            CategoryId = request.CategoryId,
+            PurchaseDate = request.PurchaseDate,
+            PurchasePrice = request.PurchasePrice,
+            LocationId = request.LocationId,
+            CurrentHolder = request.CurrentHolder,
+            Status = request.Status,
+            SerialNumber = request.SerialNumber
+            
         };
 
         return await _repository.AddAsync(newAsset);
@@ -76,11 +80,13 @@ public class AssetService
 
 
     existingAsset.Name = request.Name;
-    existingAsset.Description = request.Description;
-    existingAsset.Price = request.Price;
-    existingAsset.Quantity = request.Quantity;
+    existingAsset.CategoryId = request.CategoryId;
+    existingAsset.PurchaseDate = request.PurchaseDate;
+    existingAsset.PurchasePrice = request.PurchasePrice;
+    existingAsset.LocationId = request.LocationId;
+    existingAsset.CurrentHolder = request.CurrentHolder;
     existingAsset.Status = request.Status;
-    existingAsset.UpdatedAt = DateTime.UtcNow;
+    existingAsset.SerialNumber = request.SerialNumber;
 
     await _repository.UpdateAsync(existingAsset);
 }

@@ -6,7 +6,7 @@ using ProduceFlow.Application.DTOs.Assets;
 
 namespace ProduceFlow.Application.UseCases.Assets.Commands.CreateAsset;
 
-public record CreateAssetCommand(string Name, string Description, decimal Price, int Quantity, AssetStatus Status) : IRequest<Asset>;
+public record CreateAssetCommand(string Name, int CategoryId, DateTime PurchaseDate, decimal PurchasePrice, int LocationId, int CurrentHolder, string Status, string SerialNumber) : IRequest<Asset>;
 
 public class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, Asset>
 {
@@ -24,20 +24,26 @@ public class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, Ass
         var dto = new CreateAssetRequest
         {
             Name = request.Name,
-            Description = request.Description,
-            Price = request.Price,
-            Quantity = request.Quantity,
-            Status = request.Status
+            CategoryId = request.CategoryId,
+            PurchaseDate = request.PurchaseDate,
+            PurchasePrice = request.PurchasePrice,
+            LocationId = request.LocationId,
+            CurrentHolder = request.CurrentHolder,
+            Status = request.Status,
+            SerialNumber = request.SerialNumber
         };
         await _validator.ValidateAndThrowAsync(dto, cancellationToken);
 
         var newAsset = new Asset
         {
             Name = request.Name,
-            Description = request.Description,
-            Price = request.Price,
-            Quantity = request.Quantity,
-            Status = request.Status
+            CategoryId = request.CategoryId,
+            PurchaseDate = request.PurchaseDate,
+            PurchasePrice = request.PurchasePrice,
+            LocationId = request.LocationId,
+            CurrentHolder = request.CurrentHolder,
+            Status = request.Status,
+            SerialNumber = request.SerialNumber
         };
 
         return await _repository.AddAsync(newAsset);
