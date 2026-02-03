@@ -25,7 +25,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Authent
     {
         var user = await _userRepository.GetByEmailAsync(request.Email);
 
-        if(user == null || !_passwordHasher.Verify(user.PasswordHash, request.Password))
+        if(user == null || !_passwordHasher.Verify(request.Password, user.PasswordHash))
         {
             throw new UnauthorizedAccessException("Email atau password salah");
         }

@@ -6,6 +6,7 @@ using ProduceFlow.Infrastructure.Data;
 using ProduceFlow.Infrastructure.Repositories;
 using ProduceFlow.Infrastructure.Services;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Options;
 using System.Text;
 using ProduceFlow.Infrastructure.Authentication;
 
@@ -26,6 +27,9 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+services.Configure<JwtSettings>(
+    configuration.GetSection(JwtSettings.SectionName)
+);
 
         return services;
     }
