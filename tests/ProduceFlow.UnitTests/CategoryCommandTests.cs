@@ -26,17 +26,15 @@ public class CategoryCommandTests
     {
         //arange
         var command = new CreateCategoryCommand("Test Category", 5);
+        var expected = new Category { Name = "Test Category", DepreciationYears = 5 };
 
         //act
+        _categoryRepositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Category>()))
+        .ReturnsAsync(expected);
         var result = await _handler.Handle(command, CancellationToken.None);
-
+        
         //assert
-        result.Should().NotBeNull();
-        result.Name.Should().Be("Test Category");
-        result.DepreciationYears.Should().Be(5);
-
-        _categoryRepositoryMock.Verify(repo => repo.AddAsync(It.IsAny<Category>()), Times.Once);
-
+        result.Should().BeEquivalentTo(expected);
         
     }
 }
