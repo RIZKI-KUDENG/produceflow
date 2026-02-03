@@ -24,9 +24,6 @@ public class AppDbContext : DbContext
         .IsRequired()
         .HasMaxLength(100);
 
-        modelBuilder.Entity<Asset>()
-        .Property(a => a.Price)
-        .HasColumnType("decimal(18,2)");
 
         modelBuilder.Entity<UserRole>()
         .HasKey(ur => new { ur.UserId, ur.RoleId });
