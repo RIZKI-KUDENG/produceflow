@@ -24,12 +24,13 @@ public static class DependencyInjection
 
         services.AddScoped<IAssetRepository, AssetRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.Configure<JwtSettings>(
-    configuration.GetSection(JwtSettings.SectionName)
+        configuration.GetSection(JwtSettings.SectionName)
 );
 
         return services;

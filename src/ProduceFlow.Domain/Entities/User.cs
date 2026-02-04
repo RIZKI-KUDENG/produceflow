@@ -13,7 +13,7 @@ public class User : BaseEntity
     public int DepartementId {get; set;}
 
     [ForeignKey("DepartementId")]
-    public Departement? Departement {get; set;}
+    public Department? Departement {get; set;}
 
     public bool IsActive {get; set;} = true;
 
