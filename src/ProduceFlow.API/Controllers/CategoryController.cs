@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProduceFlow.Application.UseCases.Categories.Commands.CreateCategory;
 using ProduceFlow.Application.UseCases.Categories.Queries.GetAllCategories;
+using ProduceFlow.Application.UseCases.Categories.Queries.GetCategoryById;
 using ProduceFlow.Application.DTOs.Categories;
 using MediatR;
 
@@ -24,6 +25,12 @@ public class CategoryController : ControllerBase
     {
         var categories = await _mediator.Send(new GetAllCategoriesQuery());
         return Ok(categories);
+    }
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var result = await _mediator.Send(new GetCategoryByIdQuery(id));
+        return Ok(result);
     }
 
     [HttpPost]
