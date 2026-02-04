@@ -3,6 +3,7 @@ using ProduceFlow.Application.UseCases.Categories.Commands.CreateCategory;
 using ProduceFlow.Application.UseCases.Categories.Queries.GetAllCategories;
 using ProduceFlow.Application.UseCases.Categories.Queries.GetCategoryById;
 using ProduceFlow.Application.UseCases.Categories.Commands.UpdateCategory;
+using ProduceFlow.Application.UseCases.Categories.Commands.DeleteCategory;
 using ProduceFlow.Application.DTOs.Categories;
 using MediatR;
 
@@ -47,5 +48,11 @@ public class CategoryController : ControllerBase
         var command = new UpdateCategoryCommand(id, request.Name, request.DepreciationYears);
         var result = await _mediator.Send(command);
         return Ok(result);
+    }
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _mediator.Send(new DeleteCategoryCommand(id));
+        return NoContent();
     }
 }
