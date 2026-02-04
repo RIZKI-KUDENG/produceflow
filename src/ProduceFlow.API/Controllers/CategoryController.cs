@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProduceFlow.Application.UseCases.Categories.Commands.CreateCategory;
 using ProduceFlow.Application.UseCases.Categories.Queries.GetAllCategories;
 using ProduceFlow.Application.UseCases.Categories.Queries.GetCategoryById;
+using ProduceFlow.Application.UseCases.Categories.Commands.UpdateCategory;
 using ProduceFlow.Application.DTOs.Categories;
 using MediatR;
 
@@ -37,6 +38,13 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
     {
         var command = new CreateCategoryCommand(request.Name, request.DepreciationYears);
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateCategoryRequest request)
+    {
+        var command = new UpdateCategoryCommand(id, request.Name, request.DepreciationYears);
         var result = await _mediator.Send(command);
         return Ok(result);
     }
