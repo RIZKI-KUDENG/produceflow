@@ -19,4 +19,8 @@ public class RoleRepository : IRoleRepository
         await  _context.SaveChangesAsync();
         return role;
     }
+    public async Task<Role?> GetByNameAsync(string name)
+    {
+        return await _context.Roles.FirstOrDefaultAsync(r => r.Name.ToLower() == name.ToLower());
+    }
 }
