@@ -29,7 +29,7 @@ namespace ProduceFlow.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Departements",
+                name: "Departments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -41,7 +41,7 @@ namespace ProduceFlow.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departements", x => x.Id);
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,9 +94,9 @@ namespace ProduceFlow.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Departements_DepartementId",
+                        name: "FK_Users_Departments_DepartementId",
                         column: x => x.DepartementId,
-                        principalTable: "Departements",
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -255,7 +255,7 @@ namespace ProduceFlow.Infrastructure.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Departements");
+                name: "Departments");
         }
     }
 }

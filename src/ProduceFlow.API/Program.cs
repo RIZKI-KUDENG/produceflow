@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Serilog;
+using ProduceFlow.Application.Interfaces;
+using ProduceFlow.Infrastructure.Data;
+using ProduceFlow.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,16 +63,34 @@ app.UseAuthorization();
 app.MapControllers();
 
 
-try
+using (var scope = app.Services.CreateScope())
 {
-    Log.Information("Starting web host");
-    app.Run();
-}catch(Exception ex)
-{
-    Log.Fatal(ex, "Application Failed to start");
+    var services = scope.ServiceProvider;
+    try 
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.Migrate(); 
+
+        var roleRepository = services.GetRequiredService<IRoleRepository>();
+
+        var staffRole = await roleRepository.GetByNameAsync("Staff");
+        if (staffRole == null)
+        {
+            await roleRepository.AddAsync(new Role { Name = "Staff", Description = "Standard user access" });
+        }
+
+        var adminRole = await roleRepository.GetByNameAsync("Admin");
+        if (adminRole == null)
+        {
+            await roleRepository.AddAsync(new Role { Name = "Admin", Description = "Full system access" });
+        }
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+    }
 }
-finally
-{
-    Log.CloseAndFlush();
-}
+
+app.Run();
 

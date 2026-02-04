@@ -12,7 +12,7 @@ using ProduceFlow.Infrastructure.Data;
 namespace ProduceFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260203091027_InitialSchemaWithMasterData")]
+    [Migration("20260204111630_InitialSchemaWithMasterData")]
     partial class InitialSchemaWithMasterData
     {
         /// <inheritdoc />
@@ -108,7 +108,7 @@ namespace ProduceFlow.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("ProduceFlow.Domain.Entities.Departement", b =>
+            modelBuilder.Entity("ProduceFlow.Domain.Entities.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,7 +132,7 @@ namespace ProduceFlow.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departements");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("ProduceFlow.Domain.Entities.Location", b =>
@@ -329,7 +329,7 @@ namespace ProduceFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("ProduceFlow.Domain.Entities.User", b =>
                 {
-                    b.HasOne("ProduceFlow.Domain.Entities.Departement", "Departement")
+                    b.HasOne("ProduceFlow.Domain.Entities.Department", "Departement")
                         .WithMany()
                         .HasForeignKey("DepartementId")
                         .OnDelete(DeleteBehavior.Cascade)
