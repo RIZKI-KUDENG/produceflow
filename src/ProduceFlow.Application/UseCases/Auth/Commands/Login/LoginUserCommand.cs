@@ -35,6 +35,8 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Authent
 
         refreshToken.UserId = user.Id;
 
+        user.RefreshTokens.Add(refreshToken);
+
         await _userRepository.UpdateAsync(user);
 
         return new AuthenticationResponse
@@ -42,6 +44,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Authent
             Id = user.Id,
             FullName = user.FullName,
             Email = user.Email,
+            Role = user.UserRoles.FirstOrDefault()?.Role.Name ?? "Staff",
             AccessToken = accessToken,
             RefreshToken = refreshToken.Token
         };
