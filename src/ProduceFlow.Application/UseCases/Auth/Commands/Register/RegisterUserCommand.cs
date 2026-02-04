@@ -6,7 +6,7 @@ using ProduceFlow.Application.DTOs.Auth;
 
 namespace ProduceFlow.Application.UseCases.Auth.Commands.Register;
 
-public record RegisterUserCommand(string FullName, string Email, string Password) : IRequest<User>;
+public record RegisterUserCommand(string FullName, string Email, string Password, int DepartementId) : IRequest<User>;
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, User>
 {
@@ -27,7 +27,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, U
         {
             FullName = request.FullName,
             Email = request.Email,
-            Password = request.Password
+            Password = request.Password,
+            DepartementId = request.DepartementId
         };
         await _validator.ValidateAndThrowAsync(dto, cancellationToken);
 
@@ -36,7 +37,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, U
             FullName = request.FullName,
             Email = request.Email,
             PasswordHash = _passwordHasher.Hash(request.Password),
-            IsActive = true 
+            IsActive = true ,
+            DepartementId = request.DepartementId
         };
 
          await _repository.AddAsync(user);
