@@ -6,7 +6,6 @@ using ProduceFlow.Domain.Entities;
 using Xunit;
 using FluentAssertions;
 using FluentValidation;
-using ProduceFlow.Application.Validators;
 
 namespace ProduceFlow.UnitTests;
 
@@ -35,6 +34,7 @@ public class CategoryCommandTests
         
         //assert
         result.Should().BeEquivalentTo(expected);
+        _categoryRepositoryMock.Verify(repo => repo.AddAsync(It.IsAny<Category>()), Times.Once);
         
     }
 }

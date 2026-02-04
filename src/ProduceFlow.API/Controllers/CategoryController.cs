@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProduceFlow.Application.UseCases.Categories.Commands.CreateCategory;
+using ProduceFlow.Application.UseCases.Categories.Queries.GetAllCategories;
 using ProduceFlow.Application.DTOs.Categories;
 using MediatR;
 
@@ -15,6 +16,14 @@ public class CategoryController : ControllerBase
     public CategoryController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var categories = await _mediator.Send(new GetAllCategoriesQuery());
+        return Ok(categories);
     }
 
     [HttpPost]
