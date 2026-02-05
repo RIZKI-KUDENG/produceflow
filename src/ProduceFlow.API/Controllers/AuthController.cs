@@ -24,7 +24,7 @@ public class Authcontroller : ControllerBase
             request.FullName,
             request.Email,
             request.Password,
-            request.DepartementId
+            request.DepartmentId
         );
         var userId = await _mediator.Send(command);
         return CreatedAtAction(nameof(Register), new { id = userId }, new {message = "User registered successfully"});

@@ -17,6 +17,10 @@ public class AppDbContext : DbContext
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Department> Departments => Set<Department>();
     public DbSet<Location> Locations => Set<Location>();
+    public DbSet<PurchaseRequest> PurchaseRequests => Set<PurchaseRequest>();
+    public DbSet<PurchaseRequestItem> PurchaseRequestItems => Set<PurchaseRequestItem>();
+    public DbSet<Vendor> Vendors => Set<Vendor>();
+    public DbSet<ApprovalLog> ApprovalLogs => Set<ApprovalLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

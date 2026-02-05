@@ -8,6 +8,7 @@ namespace ProduceFlow.Domain.Entities;
         public string AssetTag { get; set; } = Guid.NewGuid().ToString();
         public string Name {get; set;} = string.Empty;
         public int CategoryId {get; set;}
+        [ForeignKey("CategoryId")]
         public virtual Category Category {get; set;} = null!;
         public decimal PurchasePrice {get; set;}
         public DateTime PurchaseDate {get; set;} 
