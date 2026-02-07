@@ -66,26 +66,13 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    try 
+    try
     {
         var context = services.GetRequiredService<AppDbContext>();
-        context.Database.Migrate(); 
-
-        var roleRepository = services.GetRequiredService<IRoleRepository>();
-
-        var staffRole = await roleRepository.GetByNameAsync("Staff");
-        if (staffRole == null)
-        {
-            await roleRepository.AddAsync(new Role { Name = "Staff", Description = "Standard user access" });
-        }
-
-        var adminRole = await roleRepository.GetByNameAsync("Admin");
-        if (adminRole == null)
-        {
-            await roleRepository.AddAsync(new Role { Name = "Admin", Description = "Full system access" });
-        }
-    }
-    catch (Exception ex)
+        var passwordHasher = services.GetRequiredService<IPasswordHasher>();
+        context.Database.Migrate();
+        await DbInitializer.InitializeAsync(context, passwordHasher);
+    }catch(Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "An error occurred while seeding the database.");
