@@ -13,5 +13,7 @@ namespace ProduceFlow.Domain.Entities
         public decimal TotalEstimatedCost {get; set;  }
         public string Status {get; set; } = string.Empty;
         public string Reason {get; set; } = string.Empty;
+
+        public virtual ICollection<PurchaseRequestItem> Items {get; set; } = new List<PurchaseRequestItem>();
     }
 }

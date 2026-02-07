@@ -16,7 +16,10 @@ public class AssetRepository : IAssetRepository
 
     public async Task<IEnumerable<Asset>> GetAllAsync()
     {
-        return await _context.Assets.ToListAsync();
+        return await _context.Assets.Include(a => a.Category)
+                                    .Include(a => a.Location)
+                                    .Include(a => a.CurrentHolder)
+                                    .ToListAsync();
     }
 
     public async Task<Asset?> GetByIdAsync(int id)
