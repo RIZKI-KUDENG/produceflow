@@ -24,7 +24,10 @@ public class AssetRepository : IAssetRepository
 
     public async Task<Asset?> GetByIdAsync(int id)
     {
-        return await _context.Assets.FindAsync(id);
+        return await _context.Assets.Include(a => a.Category)
+                                    .Include(a => a.Location)
+                                    .Include(a => a.CurrentHolder)
+                                    .FirstOrDefaultAsync(a => a.Id == id);
     }
 
     public async Task<Asset> AddAsync(Asset asset)

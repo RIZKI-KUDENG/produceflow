@@ -33,7 +33,9 @@ public class PurchaserequestItemRepository : IPurchaseRequestItemRepository
 
     public async Task<IEnumerable<PurchaseRequestItem>> GetAllAsync()
     {
-        return await _context.PurchaseRequestItems.ToListAsync();
+        return await _context.PurchaseRequestItems.Include(pri => pri.Vendor)
+                                                 .Include(pri => pri.PurchaseRequest)
+                                                 .ToListAsync();
     }
 
     public async Task<PurchaseRequestItem?> GetByIdAsync(int id)
