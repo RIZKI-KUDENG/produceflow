@@ -22,12 +22,14 @@ public class PurchaseRequestRepository : IPurchaseRequestRepository
     {
         return await _context.PurchaseRequests
         .Include(pr => pr.Requester)
+        .Include(pr => pr.Items)
         .ToListAsync();
     }
     public async Task<PurchaseRequest?> GetByIdAsync(int id)
     {
         return await _context.PurchaseRequests
         .Include(pr => pr.Requester)
+        .Include(pr => pr.Items)
         .FirstOrDefaultAsync(pr => pr.Id == id);
     }
     public async Task UpdateAsync(PurchaseRequest purchaseRequest)
