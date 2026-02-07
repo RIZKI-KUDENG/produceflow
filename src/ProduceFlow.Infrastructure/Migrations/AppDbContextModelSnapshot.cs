@@ -509,7 +509,7 @@ namespace ProduceFlow.Infrastructure.Migrations
             modelBuilder.Entity("ProduceFlow.Domain.Entities.PurchaseRequestItem", b =>
                 {
                     b.HasOne("ProduceFlow.Domain.Entities.PurchaseRequest", "PurchaseRequest")
-                        .WithMany()
+                        .WithMany("Items")
                         .HasForeignKey("PurchaseRequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -564,6 +564,11 @@ namespace ProduceFlow.Infrastructure.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProduceFlow.Domain.Entities.PurchaseRequest", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("ProduceFlow.Domain.Entities.Role", b =>

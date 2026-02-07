@@ -12,7 +12,7 @@ using ProduceFlow.Infrastructure.Data;
 namespace ProduceFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260205093329_InitialSchemaWithMasterData")]
+    [Migration("20260207125920_InitialSchemaWithMasterData")]
     partial class InitialSchemaWithMasterData
     {
         /// <inheritdoc />
@@ -512,7 +512,7 @@ namespace ProduceFlow.Infrastructure.Migrations
             modelBuilder.Entity("ProduceFlow.Domain.Entities.PurchaseRequestItem", b =>
                 {
                     b.HasOne("ProduceFlow.Domain.Entities.PurchaseRequest", "PurchaseRequest")
-                        .WithMany()
+                        .WithMany("Items")
                         .HasForeignKey("PurchaseRequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -567,6 +567,11 @@ namespace ProduceFlow.Infrastructure.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProduceFlow.Domain.Entities.PurchaseRequest", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("ProduceFlow.Domain.Entities.Role", b =>

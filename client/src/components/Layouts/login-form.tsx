@@ -14,11 +14,28 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import z from "zod"
+import {useForm} from "react-hook-form"
+import {zodResolver} from "@hookform/resolvers/zod"
+
+const loginSchema = z.object({
+  email: z.string().email({pattern: z.regexes.email}),
+  password: z.string().min(8),
+})
+
+type LoginSchema = z.infer<typeof loginSchema>
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const {register, handleSubmit, formState: {errors}} = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = (data: LoginSchema) => {
+    console.log(data);
+  };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -29,16 +46,16 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <FieldLabel>Email</FieldLabel>
                 <Input
-                  id="email"
+                  {...register("email")}
                   type="email"
                   placeholder="m@example.com"
-                  required
                 />
+                {errors.email && <p className="text-destructive">{errors.email.message}</p>}
               </Field>
               <Field>
                 <div className="flex items-center">
@@ -50,13 +67,11 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input {...register("password")} id="password" type="password" required />
+                {errors.password && <p className="text-destructive">{errors.password.message}</p>}
               </Field>
               <Field>
                 <Button type="submit">Login</Button>
-                <Button variant="outline" type="button">
-                  Login with Google
-                </Button>
                 <FieldDescription className="text-center">
                   Don&apos;t have an account? <a href="#">Sign up</a>
                 </FieldDescription>
