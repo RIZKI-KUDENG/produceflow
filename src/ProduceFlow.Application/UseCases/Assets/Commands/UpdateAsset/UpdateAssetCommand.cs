@@ -44,14 +44,14 @@ public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Ass
        }
 
        existingAsset.Name = request.Name;
-       existingAsset.CategoryId = request.CategoryId;
        existingAsset.PurchaseDate = request.PurchaseDate;
        existingAsset.PurchasePrice = request.PurchasePrice;
-       existingAsset.LocationId = request.LocationId;
-       existingAsset.CurrentHolderId = request.CurrentHolder;
        existingAsset.Status = request.Status;
-       existingAsset.SerialNumber = request.SerialNumber;
-       existingAsset.UpdatedAt = DateTime.UtcNow;
+         existingAsset.SerialNumber = request.SerialNumber;
+         existingAsset.CategoryId = request.CategoryId;
+         existingAsset.LocationId = request.LocationId;
+         existingAsset.CurrentHolderId = request.CurrentHolder;
+         
 
        await _repository.UpdateAsync(existingAsset);
        return existingAsset;

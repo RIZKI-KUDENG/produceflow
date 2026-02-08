@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using ProduceFlow.Application.Services;
 using System.Reflection;
 using FluentValidation;
 
@@ -9,7 +8,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<AssetService>();
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

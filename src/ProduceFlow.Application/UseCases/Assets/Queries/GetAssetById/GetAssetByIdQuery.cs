@@ -1,12 +1,13 @@
 using MediatR;
 using ProduceFlow.Domain.Entities;
 using ProduceFlow.Application.Interfaces;
+using ProduceFlow.Application.DTOs.Assets;
 
 namespace ProduceFlow.Application.UseCases.Assets.Queries.GetAssetById;
 
-public record GetAssetByIdQuery(int Id) : IRequest<Asset>;
+public record GetAssetByIdQuery(int Id) : IRequest<AssetResponse>;
 
-public class GetAssetByIdQueryHandler : IRequestHandler<GetAssetByIdQuery, Asset>
+public class GetAssetByIdQueryHandler : IRequestHandler<GetAssetByIdQuery, AssetResponse>
 {
     private readonly IAssetRepository _repository;
 
@@ -15,9 +16,9 @@ public class GetAssetByIdQueryHandler : IRequestHandler<GetAssetByIdQuery, Asset
         _repository = repository;
     }
 
-    public async Task<Asset> Handle(GetAssetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<AssetResponse> Handle(GetAssetByIdQuery request, CancellationToken cancellationToken)
     {
-        var asset = await _repository.GetByIdAsync(request.Id);
+        var asset = await _repository.GetDetailsByIdAsync(request.Id);
 
         if(asset == null)
         {

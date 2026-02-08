@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ProduceFlow.Application.Interfaces;
 using ProduceFlow.Domain.Entities;
 using ProduceFlow.Infrastructure.Data;
+using ProduceFlow.Application.DTOs.Assets;
 
 namespace ProduceFlow.Infrastructure.Repositories;
 
@@ -14,20 +15,57 @@ public class AssetRepository : IAssetRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Asset>> GetAllAsync()
+    public async Task<IEnumerable<AssetResponse>> GetAllAsync()
     {
-        return await _context.Assets.Include(a => a.Category)
-                                    .Include(a => a.Location)
-                                    .Include(a => a.CurrentHolder)
-                                    .ToListAsync();
+        return await _context.Assets.Select(
+            a => new AssetResponse
+            {
+                 Id = a.Id,
+            AssetTag = a.AssetTag,
+            Name = a.Name,
+            Status = a.Status,
+
+            CategoryName = a.Category.Name,
+            LocationName = a.Location.Name,
+            CurrentHolderName = a.CurrentHolder != null 
+                ? a.CurrentHolder.FullName 
+                : null,
+
+            PurchasePrice = a.PurchasePrice,
+            PurchaseDate = a.PurchaseDate
+            }
+        ).ToListAsync();
     }
 
     public async Task<Asset?> GetByIdAsync(int id)
     {
-        return await _context.Assets.Include(a => a.Category)
-                                    .Include(a => a.Location)
-                                    .Include(a => a.CurrentHolder)
-                                    .FirstOrDefaultAsync(a => a.Id == id);
+        return await _context.Assets
+        .Include(a => a.Category)
+        .Include(a => a.Location)
+        .Include(a => a.CurrentHolder)
+        .FirstOrDefaultAsync(a => a.Id == id);
+    }
+    public async Task<AssetResponse?> GetDetailsByIdAsync(int id)
+    {
+        return await _context.Assets
+        .Where(a => a.Id == id)
+        .Select(a => new AssetResponse
+        {
+            Id = a.Id,
+            AssetTag = a.AssetTag,
+            Name = a.Name,
+            Status = a.Status,
+
+            CategoryName = a.Category.Name,
+            LocationName = a.Location.Name,
+            CurrentHolderName = a.CurrentHolder != null 
+                ? a.CurrentHolder.FullName 
+                : null,
+
+            PurchasePrice = a.PurchasePrice,
+            PurchaseDate = a.PurchaseDate
+        })
+        .FirstOrDefaultAsync();
     }
 
     public async Task<Asset> AddAsync(Asset asset)
