@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using ProduceFlow.Application.Interfaces;
 using ProduceFlow.Domain.Entities;
 using ProduceFlow.Infrastructure.Data;
-
+using ProduceFlow.Application.DTOs.Auth;
 namespace ProduceFlow.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
@@ -38,5 +38,24 @@ public class UserRepository : IUserRepository
     {
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
+    }
+    public async Task<IEnumerable<UserResponse>> GetUsersAsync(string? search)
+    {
+        var query = _context.Users.AsQueryable();
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(u => u.FullName.Contains(search) || u.Email.Contains(search));
+        }
+
+        var users = await query
+            .Select(u => new UserResponse
+            {
+                Id = u.Id,
+                FullName = u.FullName
+            })
+            .ToListAsync();
+
+        return users;
     }
 }
