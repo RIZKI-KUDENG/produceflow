@@ -1,21 +1,22 @@
 import { useState } from "react";
+import type {Asset} from "@/types/assets/asset";
 
 export const useAssetModal = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedAssetId, setSelectedAssetId] = useState<number | null>(null);
+    const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
 
-    const openModal = (assetId : number) => {
-        setSelectedAssetId(assetId);
+    const openModal = (asset : Asset) => {
+        setSelectedAsset(asset);
         setIsOpen(true);
     }
     const closeModal = () => {
         setIsOpen(false);
-        setSelectedAssetId(null);
+        setSelectedAsset(null);
     }
     
     return {
         isOpen,
-        selectedAssetId,
+        selectedAsset,
         openModal,
         closeModal,
     }

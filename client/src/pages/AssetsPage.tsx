@@ -3,11 +3,12 @@ import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, Table
 import { Button } from "@/components/ui/button";
 import { useAssetModal } from "@/hooks/Assets/useAssetModal";
 import UpdateAssetModal from "@/components/Fragments/UpdateAssetModal";
+import type { Asset } from "@/types/assets/asset";
 
 
 export default function AssetsPage() {
     const { data: assets, isLoading, isError } = useAssets();
-    const {isOpen, openModal, closeModal, selectedAssetId} = useAssetModal();
+    const {isOpen, openModal, closeModal, selectedAsset} = useAssetModal();
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -33,7 +34,7 @@ export default function AssetsPage() {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {assets.map((asset: any) => (
+                {assets?.map((asset: Asset) => (
                     <TableRow key={asset.id}>
                         <TableCell>
                         {asset.name}
@@ -44,14 +45,14 @@ export default function AssetsPage() {
                         <TableCell>{asset.status}</TableCell>
                         <TableCell>
                             <Button className="bg-red-300" variant="outline" size="sm">Delete</Button>
-                            <Button onClick={() => openModal(asset.id)}  variant="outline" size="sm" className="ml-2">Edit</Button>
+                            <Button onClick={() => openModal(asset)}  variant="outline" size="sm" className="ml-2">Edit</Button>
                         </TableCell>
                     </TableRow>
                 ))}
             </TableBody>
         </Table>
-        {isOpen && selectedAssetId && (
-            <UpdateAssetModal assetId={selectedAssetId!} onClose={closeModal} />
+        {isOpen && selectedAsset && (
+            <UpdateAssetModal asset={selectedAsset!} onClose={closeModal} />
         )}
         </div>
     );
