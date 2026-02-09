@@ -9,13 +9,14 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { useAssetModal } from "@/hooks/Assets/useAssetModal";
-import UpdateAssetModal from "@/components/Fragments/UpdateAssetModal";
+import AssetModal from "@/components/Fragments/AssetModal";
 import type { Asset } from "@/types/assets/asset";
+import { useState } from "react";
 
 export default function AssetsPage() {
   const { data: assets, isLoading, isError } = useAssets();
-  const { isOpen, openModal, closeModal, selectedAsset } = useAssetModal();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
   function StatusBadge({ status }: { status: string }) {
   const colorMap: Record<string, string> = {
     Available: "bg-green-100 text-green-700",
@@ -23,6 +24,8 @@ export default function AssetsPage() {
     Maintenance: "bg-yellow-100 text-yellow-700",
     Disposed: "bg-red-100 text-red-700",
   };
+
+
 
   return (
     <span
@@ -34,6 +37,15 @@ export default function AssetsPage() {
     </span>
   );
 }
+const handleCreateClick = () => {
+    setSelectedAsset(null); 
+    setIsModalOpen(true);
+};
+
+const handleEditClick = (asset: Asset) => {
+    setSelectedAsset(asset); 
+    setIsModalOpen(true);
+};
 
 
   if (isLoading) {
@@ -63,7 +75,7 @@ export default function AssetsPage() {
           </p>
         </div>
 
-        <Button className="px-5">+ Add Asset</Button>
+        <Button onClick={handleCreateClick} className="px-5">+ Add Asset</Button>
       </div>
 
       {/* Table Card */}
@@ -117,7 +129,7 @@ export default function AssetsPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => openModal(asset)}
+                    onClick={() => handleEditClick(asset)}
                   >
                     Edit
                   </Button>
@@ -135,9 +147,11 @@ export default function AssetsPage() {
         </Table>
       </div>
 
-      {isOpen && selectedAsset && (
-        <UpdateAssetModal asset={selectedAsset} onClose={closeModal} />
-      )}
+      <AssetModal 
+        isOpen={isModalOpen}
+        asset={selectedAsset}
+        onClose={() => setIsModalOpen(false)}
+    />
     </div>
   );
 }
