@@ -22,8 +22,9 @@ import { useState } from "react";
 import { useCategories } from "@/hooks/Categories/useCategories";
 import type { Asset } from "@/types/assets/asset";
 import { useUsers } from "@/hooks/Users/useUsers";
-import type { UserLookUp } from "@/types/users/userLookUp";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useAssetStatus } from "@/hooks/Assets/useAssetStatus";
+import type { AssetStatus } from "@/constans/assetStatus";
 
 type props = {
   asset: Asset | null;
@@ -36,10 +37,11 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
   if (!asset) return null;
   const { data: categories } = useCategories();
   const { data: users } = useUsers(debouncedSearch);
+  const { status, setStatus, statusOptions } = useAssetStatus(asset.status);
   const selectedCategory = categories?.find(
     (c: any) => c.name === asset.categoryName,
   );
-  const selectedHolder =   holderId
+  const selectedHolder = holderId
     ? users?.find((u) => String(u.id) === holderId)?.fullName
     : asset.currentHolderName;
   console.log(users);
@@ -139,6 +141,24 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
                   </Command>
                 </PopoverContent>
               </Popover>
+            </Field>
+            <Field>
+              <FieldLabel>Status</FieldLabel>
+              <Select value={status} onValueChange={(val : AssetStatus) => setStatus(val)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih status" />
+                </SelectTrigger>
+
+                <SelectContent>
+                  <SelectGroup>
+                    {statusOptions.map((s) => (
+                      <SelectItem key={s.value} value={s.value}>
+                        {s.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </Field>
           </FieldGroup>
         </form>

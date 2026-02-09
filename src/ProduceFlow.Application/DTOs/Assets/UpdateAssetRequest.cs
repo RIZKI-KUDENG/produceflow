@@ -11,5 +11,4 @@ public class UpdateAssetRequest
         public int LocationId {get; set;}
         public int CurrentHolderId {get; set;}
         public string Status {get; set;} = string.Empty;
-        public string SerialNumber {get; set;} = string.Empty;
 }

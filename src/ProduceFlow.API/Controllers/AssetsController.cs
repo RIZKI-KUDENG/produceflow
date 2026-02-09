@@ -69,8 +69,7 @@ public class AssetsController : ControllerBase
             request.PurchasePrice,
             request.LocationId,
             request.CurrentHolderId,
-            request.Status,
-            request.SerialNumber
+            request.Status
         ));
         return NoContent();
     }

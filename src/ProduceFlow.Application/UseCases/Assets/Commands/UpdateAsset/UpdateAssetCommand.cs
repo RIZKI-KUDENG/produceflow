@@ -7,7 +7,7 @@ using ProduceFlow.Application.DTOs.Assets;
 
 namespace ProduceFlow.Application.UseCases.Assets.Commands.UpdateAsset;
 
-public record UpdateAssetCommand( int Id, string Name, int CategoryId, DateTime PurchaseDate, decimal PurchasePrice, int LocationId, int CurrentHolder, string Status, string SerialNumber) : IRequest<Asset>;
+public record UpdateAssetCommand( int Id, string Name, int CategoryId, DateTime PurchaseDate, decimal PurchasePrice, int LocationId, int CurrentHolder, string Status) : IRequest<Asset>;
 
 public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Asset>
 {
@@ -31,7 +31,6 @@ public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Ass
             LocationId = request.LocationId,
             CurrentHolderId = request.CurrentHolder,
             Status = request.Status,
-            SerialNumber = request.SerialNumber
        };
 
        await _validator.ValidateAndThrowAsync(dto, cancellationToken);
@@ -47,7 +46,6 @@ public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Ass
        existingAsset.PurchaseDate = request.PurchaseDate;
        existingAsset.PurchasePrice = request.PurchasePrice;
        existingAsset.Status = request.Status;
-         existingAsset.SerialNumber = request.SerialNumber;
          existingAsset.CategoryId = request.CategoryId;
          existingAsset.LocationId = request.LocationId;
          existingAsset.CurrentHolderId = request.CurrentHolder;
