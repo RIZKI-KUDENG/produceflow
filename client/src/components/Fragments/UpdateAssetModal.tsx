@@ -41,13 +41,11 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
   const { data: categories } = useCategories();
   const { data: users } = useUsers(debouncedSearch);
   const { status, setStatus, statusOptions } = useAssetStatus(asset.status);
-  const selectedCategory = categories?.find(
-    (c: any) => c.name === asset.categoryName,
-  );
+
   const selectedHolder = holderId
     ? users?.find((u) => String(u.id) === holderId)?.fullName
     : asset.currentHolderName;
- const handleSubmit = (e: any) => {
+ const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
   e.preventDefault();
   const formData = new FormData(e.currentTarget);
 
@@ -94,7 +92,7 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
               <Select
                 name="categoryId"
                 defaultValue={
-                  selectedCategory ? String(selectedCategory.id) : undefined
+                  String(asset.categoryId)
                 }
               >
                 <SelectTrigger>
