@@ -12,10 +12,5 @@ public class UpdateAssetRequestValidator : AbstractValidator<UpdateAssetRequest>
         .WithMessage("Name is required")
         .MaximumLength(100)
         .WithMessage("Name must not exceed 100 characters");
-
-
-        RuleFor(x => x.Status)
-        .IsInEnum()
-        .WithMessage("Status is invalid");
     }
 }

@@ -26,10 +26,13 @@ public class AssetRepository : IAssetRepository
             Status = a.Status,
 
             CategoryName = a.Category.Name,
+            CategoryId= a.CategoryId,
             LocationName = a.Location.Name,
+            LocationId = a.LocationId,
             CurrentHolderName = a.CurrentHolder != null 
                 ? a.CurrentHolder.FullName 
                 : null,
+            CurrentHolderId = a.CurrentHolderId != null ? a.CurrentHolderId.Value : null,
 
             PurchasePrice = a.PurchasePrice,
             PurchaseDate = a.PurchaseDate
@@ -57,10 +60,13 @@ public class AssetRepository : IAssetRepository
             Status = a.Status,
 
             CategoryName = a.Category.Name,
+            CategoryId= a.CategoryId,
             LocationName = a.Location.Name,
+            LocationId = a.LocationId,
             CurrentHolderName = a.CurrentHolder != null 
                 ? a.CurrentHolder.FullName 
                 : null,
+            CurrentHolderId = a.CurrentHolderId != null ? a.CurrentHolderId.Value : 0,
 
             PurchasePrice = a.PurchasePrice,
             PurchaseDate = a.PurchaseDate

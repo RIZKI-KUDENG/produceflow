@@ -25,6 +25,8 @@ import { useUsers } from "@/hooks/Users/useUsers";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useAssetStatus } from "@/hooks/Assets/useAssetStatus";
 import type { AssetStatus } from "@/constans/assetStatus";
+import { useUpdateAsset } from "@/hooks/Assets/useUpdateAsset";
+import type { UpdateAssetData } from "@/types/assets/updateAssetData";
 
 type props = {
   asset: Asset | null;
@@ -34,6 +36,7 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
   const [holderId, setHolderId] = useState<string>("");
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 1000);
+  const { mutate: updateAsset } = useUpdateAsset();
   if (!asset) return null;
   const { data: categories } = useCategories();
   const { data: users } = useUsers(debouncedSearch);
@@ -44,7 +47,28 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
   const selectedHolder = holderId
     ? users?.find((u) => String(u.id) === holderId)?.fullName
     : asset.currentHolderName;
-  console.log(users);
+ const handleSubmit = (e: any) => {
+  e.preventDefault();
+  const formData = new FormData(e.currentTarget);
+
+  const payload: UpdateAssetData = {
+    name: (formData.get("name") as string) || asset.name,
+    categoryId: Number(formData.get("categoryId")) || asset.categoryId,
+    purchasePrice:
+      Number(formData.get("purchasePrice")) || asset.purchasePrice,
+    locationId: asset.locationId,
+    currentHolderId: Number(holderId) || asset.currentHolderId,
+    purchaseDate: asset.purchaseDate,
+    status: status,
+  };
+
+  updateAsset({
+    id: asset.id,
+    assetData: payload,
+  });
+};
+
+
   return (
     <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
       <div className="bg-slate-100 p-6 rounded w-full max-w-md">
@@ -54,12 +78,13 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
             &times;
           </Button>
         </div>
-        <form action="">
+        <form action="" onSubmit={handleSubmit}>
           <FieldGroup>
             <Field>
               <FieldLabel>Name</FieldLabel>
               <Input
                 type="text"
+                name="name"
                 placeholder="Asset Name"
                 defaultValue={asset.name}
               />
@@ -67,6 +92,7 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
             <Field>
               <FieldLabel>Category</FieldLabel>
               <Select
+                name="categoryId"
                 defaultValue={
                   selectedCategory ? String(selectedCategory.id) : undefined
                 }
@@ -93,6 +119,7 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
               <FieldLabel>Purchase Price</FieldLabel>
               <Input
                 type="number"
+                name="purchasePrice"
                 placeholder="Asset Name"
                 defaultValue={asset.purchasePrice}
               />
@@ -144,7 +171,10 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
             </Field>
             <Field>
               <FieldLabel>Status</FieldLabel>
-              <Select value={status} onValueChange={(val : AssetStatus) => setStatus(val)}>
+              <Select
+                value={status}
+                onValueChange={(val: AssetStatus) => setStatus(val)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Pilih status" />
                 </SelectTrigger>
@@ -161,6 +191,9 @@ export default function UpdateAssetModal({ asset, onClose }: props) {
               </Select>
             </Field>
           </FieldGroup>
+          <Button className="mt-4 w-full" type="submit">
+            Save
+          </Button>
         </form>
       </div>
     </div>
