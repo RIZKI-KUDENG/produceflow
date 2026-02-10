@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
 using System.Text;
 using ProduceFlow.Infrastructure.Authentication;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 namespace ProduceFlow.Infrastructure;
 
@@ -32,9 +33,18 @@ public static class DependencyInjection
         services.AddScoped<IPurchaseRequestItemRepository, PurchaserequestItemRepository>();
         services.AddScoped<IVendorRepository, VendorRepository>();
 
+
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("RedisConnection") ?? "localhost:6379";
+            options.InstanceName = "ProduceFlow_";
+        });
+
         services.Configure<JwtSettings>(
         configuration.GetSection(JwtSettings.SectionName)
 );
