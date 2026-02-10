@@ -13,9 +13,5 @@ public class CreateAssetRequestValidator : AbstractValidator<CreateAssetRequest>
         .MaximumLength(100)
         .WithMessage("Name must not exceed 100 characters");
 
-
-        RuleFor(x => x.Status)
-        .IsInEnum()
-        .WithMessage("Status is invalid");
     }
 }

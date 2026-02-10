@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using FluentValidation;
+using MediatR;
+using ProduceFlow.Application.Common.Behaviors;
 
 namespace ProduceFlow.Application;
 
@@ -14,7 +16,9 @@ public static class DependencyInjection
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
         });
+
 
         return services;
     }

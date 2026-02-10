@@ -3,6 +3,7 @@ using ProduceFlow.Domain.Entities;
 using ProduceFlow.Application.Interfaces;
 using FluentValidation;
 using ProduceFlow.Application.DTOs.Assets;
+using Microsoft.Extensions.Caching.Distributed;
 
 
 namespace ProduceFlow.Application.UseCases.Assets.Commands.UpdateAsset;
@@ -13,11 +14,13 @@ public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Ass
 {
     private readonly IAssetRepository _repository;
     private readonly IValidator<UpdateAssetRequest> _validator;
+    private readonly IDistributedCache _cache;
 
-    public UpdateAssetCommandHandler(IAssetRepository repository, IValidator<UpdateAssetRequest> validator)
+    public UpdateAssetCommandHandler(IAssetRepository repository, IValidator<UpdateAssetRequest> validator, IDistributedCache cache)
     {
         _repository = repository;
         _validator = validator;
+        _cache = cache;
     }
 
     public async Task<Asset> Handle(UpdateAssetCommand request, CancellationToken cancellationToken)
@@ -52,6 +55,7 @@ public class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, Ass
          
 
        await _repository.UpdateAsync(existingAsset);
+       await _cache.RemoveAsync("Asset_List", cancellationToken);
        return existingAsset;
     }
 }

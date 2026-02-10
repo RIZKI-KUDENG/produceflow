@@ -3,6 +3,7 @@ using ProduceFlow.Domain.Entities;
 using ProduceFlow.Application.Interfaces;
 using FluentValidation;
 using ProduceFlow.Application.DTOs.Assets;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace ProduceFlow.Application.UseCases.Assets.Commands.CreateAsset;
 
@@ -12,11 +13,13 @@ public class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, Ass
 {
     private readonly IAssetRepository _repository;
     private readonly IValidator<CreateAssetRequest> _validator;
+    private readonly IDistributedCache _cache;
 
-    public CreateAssetCommandHandler(IAssetRepository repository, IValidator<CreateAssetRequest> validator)
+    public CreateAssetCommandHandler(IAssetRepository repository, IValidator<CreateAssetRequest> validator, IDistributedCache cache)
     {
         _repository = repository;
         _validator = validator;
+        _cache = cache;
     }
 
     public async Task<Asset> Handle(CreateAssetCommand request, CancellationToken cancellationToken)
@@ -46,6 +49,8 @@ public class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, Ass
             SerialNumber = request.SerialNumber
         };
 
-        return await _repository.AddAsync(newAsset);
+        var result = await _repository.AddAsync(newAsset);
+        await _cache.RemoveAsync("Asset_List", cancellationToken);
+        return result;
     }
 }
